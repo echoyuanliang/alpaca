@@ -1,0 +1,14 @@
+appdirs==1.4.3
+click==6.7
+Flask==0.12.1
+Flask-Script==2.0.5
+itsdangerous==0.24
+Jinja2==2.9.6
+MarkupSafe==1.0
+packaging==16.8
+psutil==5.2.2
+pyparsing==2.2.0
+simplepam==0.1.5
+six==1.10.0
+uptime==3.0.1
+Werkzeug==0.12.1
