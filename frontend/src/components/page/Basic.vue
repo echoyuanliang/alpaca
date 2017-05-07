@@ -67,7 +67,7 @@
 
 <style>
     .table-row{
-        margin: 10px 2px;
+        margin: 15px 2px;
     }
 </style>
 <script>
@@ -88,6 +88,7 @@
 
         methods: {
 
+            /*
             obj2list: function (obj) {
                 let ret = [];
                 for (let prop in obj) {
@@ -97,6 +98,7 @@
                 }
                 return ret;
             },
+            */
 
             getBasicInfo: function () {
                 let _self = this;

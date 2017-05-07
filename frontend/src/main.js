@@ -15,10 +15,15 @@ import "babel-polyfill";
 import './mock/index.js';
 import Resource from 'vue-resource';
 import Auth from 'service/auth.js';
+//import VueDebug from 'vue-debug';
+//import VueLogger from 'vue-logger';
 
+import VueLogger from 'vue-logger';
 Vue.use(Resource);
 Vue.use(ElementUI);
 Vue.use(VueResource);
+Vue.use(VueLogger);
+//Vue.use(VueDebug);
 Vue.prototype.$axios = axios;
 
 global.api = require('./api.js');

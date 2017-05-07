@@ -87,7 +87,6 @@ def get_cpu_info():
     for line in out.splitlines():
         k, v = line.split(':')
         cpu_info[k.strip()] = v.strip()
-
     return cpu_info
 
 

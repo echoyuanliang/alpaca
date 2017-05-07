@@ -6,10 +6,10 @@
 """
 
 from flask import make_response, jsonify, Blueprint
-
 from app.lib import basic
 
 basic_bp = Blueprint('basic', __name__)
+
 
 @basic_bp.route('/', methods=['GET'])
 def basic_info():
@@ -21,11 +21,13 @@ def basic_info():
         'net': basic.get_net_info(),
         'swap': basic.get_swap_info()
     }
-    return make_response(jsonify(code=200, data = basic_item), 200)
+    return make_response(jsonify(code=200, data=basic_item), 200)
+
 
 @basic_bp.route('/general', methods=['GET'])
 def basic_general():
     return make_response(jsonify(code=200, data=basic.get_general()))
+
 
 @basic_bp.route('/cpu', methods=['GET'])
 def basic_cpu():
@@ -35,6 +37,7 @@ def basic_cpu():
 @basic_bp.route('/mem', methods=['GET'])
 def basic_mem():
     return make_response(jsonify(code=200, data=basic.get_mem_info()))
+
 
 @basic_bp.route('/disk', methods=['GET'])
 def basic_net():

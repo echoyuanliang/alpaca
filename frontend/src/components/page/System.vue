@@ -8,7 +8,14 @@
                     </el-row>
                     <el-row type="flex" justify="space-around" class="table-row">
                         <el-table :data="cpu_intensive" border maxHeight="300">
-                            <el-table-column prop="pid" label="pid">
+                            <el-table-column label="pid">
+                                <template scope="scope">
+                                    <el-tag type="success">
+                                        <router-link :to="{name: 'process', params:{pid: scope.row.pid}}" tag="span">
+                                            {{scope.row.pid}}
+                                        </router-link>
+                                    </el-tag>
+                                </template>
                             </el-table-column>
                             <el-table-column label="name">
                                 <template scope="scope">
@@ -37,7 +44,14 @@
                     </el-row>
                     <el-row type="flex" justify="space-around">
                         <el-table :data="mem_intensive" border maxHeight="300">
-                            <el-table-column prop="pid" label="pid">
+                            <el-table-column label="pid">
+                                <template scope="scope">
+                                    <el-tag type="success">
+                                        <router-link :to="{name: 'process', params:{pid: scope.row.pid}}" tag="span">
+                                            {{scope.row.pid}}
+                                        </router-link>
+                                    </el-tag>
+                                </template>
                             </el-table-column>
                             <el-table-column label="name">
                                 <template scope="scope">

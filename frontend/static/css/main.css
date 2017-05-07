@@ -2,7 +2,7 @@
 html,body,#app,.wrapper{
     width:100%;
     height:100%;
-    overflow: hidden;
+    overflow: scroll;
 }
 body{
     font-family:"Helvetica Neue",Helvetica, "microsoft yahei", arial, STHeiTi, sans-serif;

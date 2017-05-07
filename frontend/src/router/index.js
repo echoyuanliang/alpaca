@@ -18,12 +18,13 @@ export default new Router({
 
             children:[
                 {
-                    path: '/',
+                    path: '',
                     component: resolve => require(['../components/page/Basic.vue'], resolve),
                     meta: {
                         needAuth: true
                     }
                 },
+
                 {
                     path: '/system',
                     meta: {
@@ -31,6 +32,7 @@ export default new Router({
                     },
                     component: resolve => require(['../components/page/System.vue'], resolve)
                 },
+
                 {
                     path: '/network',
                     meta: {

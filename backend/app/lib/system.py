@@ -12,6 +12,7 @@ from collections import defaultdict
 from app.lib.util import obj2dict
 from app.lib.const import SOCK_TYPE
 
+
 def get_loadavg():
     load_file = '/proc/loadavg'
 
@@ -26,11 +27,9 @@ def get_loadavg():
 
 
 def _parse_cpu_fields(fields):
-    cpu_name = fields[0]
-    field_list = [int(field) for field in fields[1:]]
+    field_list = [int(field) for field in fields]
     total = sum(field_list)
     return {
-        'name': cpu_name,
         'total': total,
         'user': field_list[1],
         'nice': field_list[2],
@@ -47,7 +46,7 @@ def _parse_cpu_fields(fields):
 def get_cpu_stat():
     cpu_stat_file = '/proc/stat'
 
-    cpu_stat = dict(cpus=list())
+    cpu_stat = dict(cpus=dict())
     with open(cpu_stat_file, 'r') as cfp:
         for line in cfp.xreadlines():
             fields = [field.strip() for field in line.split(' ') if field.strip()]
@@ -56,11 +55,12 @@ def get_cpu_stat():
 
             field_name = fields[0]
             if field_name.startswith('cpu'):
-                cpu_stat['cpus'].append(_parse_cpu_fields(fields))
+                cpu_stat['cpus'][field_name] = _parse_cpu_fields(fields[1:])
             elif field_name in ['ctxt', 'processes', 'procs_running', 'procs_blocked']:
                 cpu_stat[field_name] = int(fields[1])
 
     return cpu_stat
+
 
 def _proc2simple(proc):
 
@@ -76,15 +76,17 @@ def _proc2simple(proc):
             'status': proc.status()
         }
 
+
 def get_intensive_processes():
     procs = map(_proc2simple, psutil.process_iter())
-    cpu_intensive = sorted(procs, cmp=lambda x,y: x['cpu_percent'] < y['cpu_percent'], reverse=True)[0: 20]
-    mem_intensive = sorted(procs, cmp=lambda x,y: x['memory_percent'] < y['memory_percent'], reverse=True)[0:20]
+    cpu_intensive = sorted(procs, cmp=lambda x, y: x['cpu_percent'] < y['cpu_percent'], reverse=True)[0: 20]
+    mem_intensive = sorted(procs, cmp=lambda x, y: x['memory_percent'] < y['memory_percent'], reverse=True)[0:20]
 
     return {
         'cpu_intensive': cpu_intensive,
         'mem_intensive': mem_intensive
     }
+
 
 def get_simple_process(pids):
     simple_process = []
@@ -95,6 +97,7 @@ def get_simple_process(pids):
         simple_process.append(_proc2simple(process))
 
     return simple_process
+
 
 def get_children(nodes_dict, parent):
 
@@ -109,16 +112,18 @@ def get_children(nodes_dict, parent):
 
     return children
 
+
 def transfer_nodes2tree(nodes_dict, child_nodes):
 
     tree = list()
     for parent, cur_children in nodes_dict.items():
-        if parent not in child_nodes: # first level
+        if parent not in child_nodes:  # first level
             tree.append({
                 'process': parent,
                 'children': get_children(nodes_dict, parent)
             })
     return tree
+
 
 def conn2json(conn):
     laddr = map(str, conn.laddr)
@@ -130,6 +135,7 @@ def conn2json(conn):
         'status': conn.status,
         'type': SOCK_TYPE.get(socket.SOCK_STREAM, 'raw')
     }
+
 
 def get_pstree():
 
@@ -146,6 +152,7 @@ def get_pstree():
 def children_processor(children):
     return [{'pid': child.pid, 'name': child.name()} for child in children]
 
+
 def get_process_detail(pid):
     for process in psutil.process_iter():
         if process.pid == pid:
@@ -157,7 +164,7 @@ def get_process_detail(pid):
     override = {
         type(cur_process): {
             'children': children_processor,
-            'parent': lambda p: {'pid' : p.pid, 'name': p.name()} if p else None,
+            'parent': lambda p: {'pid': p.pid, 'name': p.name()} if p else None,
             'cmdline': lambda lines: ' '.join(lines),
             'connections': lambda conns: map(conn2json, conns),
             'create_time': lambda timestamp: datetime.datetime.fromtimestamp(
@@ -174,6 +181,7 @@ def get_process_detail(pid):
 
     return obj2dict(cur_process, methods=True,
                     override=override, ignore=ignore)
+
 
 def search_process(q):
     process_map = defaultdict(list)
