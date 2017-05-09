@@ -2,13 +2,13 @@
     <div>
         <el-row type="flex" justify="space-around" class="row-section" v-for="(item, key) in iface_charts">
             <el-col :span="22">
-                <section>
-                    <el-row type="flex" justify="space-around">
+                <el-card>
+                    <div slot="header" align="center">
                         <h3 class="title-tag">
                             <el-tag  type="success">{{key}} &nbsp; 网络流量</el-tag>
                         </h3>
-                    </el-row>
-                    <el-row type="flex" justify="space-around" class="row-section">
+                    </div>
+                    <el-row type="flex" justify="space-around">
                         <el-col :span="11">
                             <div class="charts">
                                 <time-line-charts :values="item.bytes_charts.data" :names="item.bytes_charts.names"
@@ -22,43 +22,45 @@
                             </div>
                         </el-col>
                     </el-row>
-                </section>
+                </el-card>
             </el-col>
         </el-row>
 
         <el-row type="flex" justify="space-around" class="row-section">
             <el-col :span="22">
-                <section>
-                    <el-row type="flex" justify="space-around">
+                <el-card>
+                    <div slot="header" align="center">
                         <h3 class="title-tag">
                             <el-tag  type="success">连接状态</el-tag>
                         </h3>
-                    </el-row>
-                    <el-row type="flex" justify="space-around" class="row-section">
+                    </div>
+                    <el-row type="flex" justify="space-around">
                         <el-col :span="11">
-                            <div class="charts" v-if="conn_charts.tcp.values">
-                                <pie-charts :values="conn_charts.tcp.values" :names="conn_charts.tcp.names"
-                                                  :title="conn_charts.tcp.title"></pie-charts>
+                            <div class="charts" v-if="conn_charts.values.length">
+                                <pie-charts :values="conn_charts.values" :names="conn_charts.names"
+                                                  :title="conn_charts.title"></pie-charts>
                             </div>
                         </el-col>
                         <el-col :span="11">
-                            <div class="charts" v-if="conn_charts.tcp.values">
-                                <pie-charts :values="conn_charts.udp.values" :names="conn_charts.udp.names"
-                                            :title="conn_charts.udp.title"></pie-charts>
+                            <div class="charts" v-if="status_charts.names.length">
+                                <time-line-charts :values="status_charts.data" :names="status_charts.names"
+                                                  :title="status_charts.title"></time-line-charts>
                             </div>
                         </el-col>
                     </el-row>
-                </section>
+                </el-card>
             </el-col>
         </el-row>
         <el-row type="flex" justify="space-around" class="row-section">
             <el-col :span="22">
-                <section v-if="connections.tcp">
+                <el-card v-if="connections.conns">
+                    <div slot="header" align="center">
+                        <h3 class="title-tag">
+                            <el-tag type="success">TCP 连接详情 &nbsp; (共 {{connections.count}} 个连接)</el-tag>
+                        </h3>
+                    </div>
                     <el-row type="flex" justify="space-around">
-                        <el-tag type="success">TCP 连接详情 &nbsp; (共 {{connections.tcp.length}} 个连接)</el-tag>
-                    </el-row>
-                    <el-row type="flex" justify="space-around" class="table-row">
-                        <el-table :data="connections.tcp" border>
+                        <el-table :data="connections.conns" border>
                             <el-table-column label="pid" width="100" align="center">
                                 <template scope="scope">
                                     <el-button type="text" size="small" :disabled="scope.row.pid == '-'">
@@ -83,37 +85,7 @@
                             </el-table-column>
                         </el-table>
                     </el-row>
-                </section>
-            </el-col>
-        </el-row>
-
-        <el-row type="flex" justify="space-around" class="row-section">
-            <el-col :span="22">
-                <section v-if="connections.udp">
-                    <el-row type="flex" justify="space-around">
-                        <el-tag type="success">UDP连接详情 &nbsp; (共 {{connections.udp.length}} 个连接)</el-tag>
-                    </el-row>
-                    <el-row type="flex" justify="space-around" class="table-row">
-                        <el-table :data="connections.udp" border>
-                            <el-table-column prop="pid" label="pid" @click="$router.go('/process' + scope.row.pid)">
-                                <template scope="scope">
-                                    <el-tag type="success">{{scope.row.pid}}</el-tag>
-                                </template>
-                            </el-table-column>
-                            <el-table-column prop="l_addr" label="l_addr">
-                            </el-table-column>
-                            <el-table-column prop="r_addr" label="r_addr">
-                            </el-table-column>
-                            <el-table-column prop="recv_q" label="recv_q" sortable>
-                            </el-table-column>
-                            <el-table-column prop="send_q" label="send_q" sortable>
-                            </el-table-column>
-                            <el-table-column prop="status" label="status">
-                            </el-table-column>
-                        </el-table>
-                    </el-row>
-
-                </section>
+                </el-card>
             </el-col>
         </el-row>
     </div>
@@ -137,19 +109,24 @@
         border-radius: 2px;
     }
 
-    span.el-tag{
+    .title-tag span.el-tag{
         font-size: 18px;
         font-weight: bold;
+    }
+
+    .el-card__header{
+        padding: 10px 10px;
     }
 
 </style>
 <script>
     import TimeLineCharts from '../common/TimeLineCharts.vue';
     import PieCharts from '../common/PieCharts.vue';
+    import ElCard from "../../../node_modules/element-ui/packages/card/src/main";
 
     export default{
         components: {
-            'time-line-charts': TimeLineCharts,
+            ElCard, 'time-line-charts': TimeLineCharts,
             'pie-charts': PieCharts
         },
 
@@ -164,12 +141,18 @@
                 connections: {},
                 iface_charts: {},
                 conn_charts: {
-                    tcp: {
-                        title: 'TCP连接状态'
-                    },
-
-                    udp: {
-                        title: 'UDP连接状态'
+                    title: '',
+                    names: [],
+                    values: []
+                },
+                status_charts: {
+                    title: '',
+                    names: [],
+                    data: {
+                        'CLOSE_WAIT': [],
+                        'ESTABLISHED': [],
+                        'LISTEN': [],
+                        'TIME_WAIT': []
                     }
                 }
             };
@@ -181,6 +164,7 @@
                     try{
                         let net_info = response.data.data;
                         this.connections = net_info.connections;
+                        this.$log.log(this.connections);
                         let iface_status = net_info.iface_status;
                         this.initIfaceCharts(iface_status);
                         this.updateConnCharts(this.connections);
@@ -201,7 +185,6 @@
                         for(let item of iface_status){
                             this.pushDataToCharts(item);
                         }
-
                         this.updateConnCharts(this.connections);
                     }catch(error){
                         this.$log.log(error);
@@ -226,7 +209,6 @@
                   }else{
                       agg[conn.status] = 1
                   }
-
                   names.add(conn.status);
               }
 
@@ -236,18 +218,31 @@
                       'value': agg[name]
                   });
               }
-
               return [Array.from(names), values];
             },
 
             updateConnCharts: function (connections) {
                 let conn_charts = this.conn_charts;
-                let [tcp_names, tcp_values] = this.aggregateConns(connections.tcp);
-                let [udp_names, udp_values] = this.aggregateConns(connections.udp);
-                conn_charts.tcp.names = tcp_names;
-                conn_charts.tcp.values = tcp_values;
-                conn_charts.udp.names = udp_names;
-                conn_charts.udp.values = udp_values;
+                let [names, values] = this.aggregateConns(connections.conns);
+                //Object.assign(conn_charts.names, names);
+                //Object.assign(conn_charts.values, values);
+                conn_charts.names.length = 0;
+                for(let name of names){
+                    conn_charts.names.push(name);
+                }
+                conn_charts.values.length = 0;
+                for(let value of values){
+                    conn_charts.values.push(value);
+                }
+
+                this.$log.log(conn_charts.values);
+                const now = new Date();
+                const name = [now.getHours(), now.getMinutes() , now.getSeconds()].join(':');
+                let status_charts = this.status_charts;
+                for(let item of values){
+                    status_charts.data[item.name].push(item.value);
+                }
+                status_charts.names.push(name);
             },
 
             initIfaceCharts: function (iface_status) {

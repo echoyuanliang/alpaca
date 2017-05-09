@@ -16,10 +16,8 @@ def basic_info():
     basic_item = {
         'general': basic.get_general(),
         'cpu': basic.get_cpu_info(),
-        'mem': basic.get_mem_info(),
         'disk': basic.get_disk_info(),
-        'net': basic.get_net_info(),
-        'swap': basic.get_swap_info()
+        'net': basic.get_net_info()
     }
     return make_response(jsonify(code=200, data=basic_item), 200)
 
@@ -32,11 +30,6 @@ def basic_general():
 @basic_bp.route('/cpu', methods=['GET'])
 def basic_cpu():
     return make_response(jsonify(code=200, data=basic.get_cpu_info()))
-
-
-@basic_bp.route('/mem', methods=['GET'])
-def basic_mem():
-    return make_response(jsonify(code=200, data=basic.get_mem_info()))
 
 
 @basic_bp.route('/disk', methods=['GET'])

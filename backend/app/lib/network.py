@@ -9,20 +9,14 @@ import subprocess
 
 
 def get_connections():
-    conn_cmd = 'netstat -np --inet'
+    conn_cmd = 'netstat -natp'
     conn_out = subprocess.check_output(conn_cmd, shell=True)
     conn_lines = conn_out.splitlines()[2:]
-
-    listen_cmd = 'netstat -ltnp'
-    listen_out = subprocess.check_output(listen_cmd, shell=True)
-    listen_lines = listen_out.splitlines()[2:]
-
-    lines = conn_lines + listen_lines
-    count = len(lines)
-    conns = {'tcp': list(), 'udp': list(), 'count': count}
-    for line in lines:
+    count = len(conn_lines)
+    conns = {'conns': list(), 'count': count}
+    for line in conn_lines:
         items = [item.strip() for item in line.split(' ') if item.strip()]
-        conns[items[0]].append({
+        conns['conns'].append({
             'status': items[5],
             'recv_q': int(items[1]),
             'send_q': int(items[2]),

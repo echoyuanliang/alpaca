@@ -7,19 +7,13 @@
 
 from flask import make_response, jsonify, Blueprint, request
 from app.lib import system
-from app.handler import cpu_handler
+from app.handler import system_handler
 system_bp = Blueprint('system_bp', __name__)
 
 
 @system_bp.route('/')
 def system_info():
-    data = {
-        'loadavg': system.get_loadavg(),
-        'cpu_stat': cpu_handler.get_last_stat(),
-        'intensive_processes': system.get_intensive_processes(),
-        'pstree': system.get_pstree()
-    }
-
+    data = system_handler.get_system()
     return make_response(jsonify(code=200, data=data), 200)
 
 
@@ -30,7 +24,7 @@ def system_load():
 
 @system_bp.route('/cpu_stat')
 def system_cpu_stat():
-    return make_response(jsonify(code=200, data=cpu_handler.get_last_stat()), 200)
+    return make_response(jsonify(code=200, data=system_handler.get_last_stat()), 200)
 
 
 @system_bp.route('/processes')

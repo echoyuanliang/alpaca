@@ -53,40 +53,18 @@ def get_disk_info():
     return disk_info
 
 
-def get_mem_info():
-    memory = psutil.virtual_memory()
-    return {
-        'total': bytes2human(memory.total),
-        'available': bytes2human(memory.available),
-        'used': bytes2human(memory.used),
-        'active': bytes2human(memory.active),
-        'free': bytes2human(memory.free),
-        'inactive': bytes2human(memory.inactive),
-        'buffers': bytes2human(memory.buffers),
-        'cached': bytes2human(memory.cached),
-        'percent': memory.percent
-    }
-
-
-def get_swap_info():
-    swap = psutil.swap_memory()
-    return {
-        'total': bytes2human(swap.total),
-        'used': bytes2human(swap.used),
-        'free': bytes2human(swap.free),
-        'sin': bytes2human(swap.sin),
-        'sout': bytes2human(swap.sout),
-        'percent': bytes2human(swap.percent)
-    }
-
-
 def get_cpu_info():
     cmd = '/usr/bin/lscpu'
     out = subprocess.check_output(cmd, shell=True)
     cpu_info = dict()
+    public_keys = ['Architecture', 'Byte Order', 'CPU MHz', 'CPU(s)']
+    public_pattern = 'cache'
+
     for line in out.splitlines():
-        k, v = line.split(':')
-        cpu_info[k.strip()] = v.strip()
+        k, v = [item.strip() for item in line.split(':')]
+        if k in public_keys or k.find(public_pattern) != -1:
+            k = k.replace(' ', '_').replace('(', '').replace(')', '').lower()
+            cpu_info[k] = v
     return cpu_info
 
 

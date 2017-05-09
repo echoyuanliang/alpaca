@@ -152,10 +152,7 @@
                         this.cpu_info = this.computeCpuInfo();
                         this.io_counters = [this.process_info.io_counters];
                         this.mem_info = this.computeMemInfo();
-                        console.log(this.process_info);
-                        // console.log(this.io_counters);
                     },(error)=>{
-                        console.error(error);
                     }
                 )
             },

@@ -14,11 +14,18 @@ class NetHandler(Thread):
         self.interval = interval
 
     def run(self):
+        from app.main import app
+
         while True:
-            net = get_iface_status()
-            self._set_net_async(net)
-            self._set_connections()
-            time.sleep(self.interval)
+            with app.app_context():
+                try:
+                    app.logger.info('_set_net')
+                    net = get_iface_status()
+                    self._set_net_async(net)
+                    self._set_connections()
+                    time.sleep(self.interval)
+                except Exception as e:
+                    app.logger.exception(str(e))
 
     def _set_net(self, net):
         self.net_cache[1] = self.net_cache[0]

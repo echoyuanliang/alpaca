@@ -1,20 +1,53 @@
 <template>
     <div>
         <el-row type="flex" justify="space-around" class="table-row">
-            <kv-panel :span="5" :data="general" header="General Info.">
-            </kv-panel>
-            <kv-panel :span="5" :data="mem" header="Memory Info.">
-            </kv-panel>
-            <kv-panel :span="5" :data="cpu" header="Cpu Info.">
-            </kv-panel>
-            <kv-panel :span="5" :data="swap" header="Swap Info.">
-            </kv-panel>
+            <el-col :span="22">
+                <el-card>
+                    <div slot="header" align="center">
+                        <h3 class="title-tag">
+                            <el-tag type="success">General Info</el-tag>
+                        </h3>
+                    </div>
+
+                    <el-table :data="general" border>
+                        <el-table-column prop="hostname" label="hostname"></el-table-column>
+                        <el-table-column prop="os_name" label="os_name"></el-table-column>
+                        <el-table-column prop="os_version" label="os_version"></el-table-column>
+                        <el-table-column prop="server_time" label="server_time"></el-table-column>
+                        <el-table-column prop="sys_up" label="sys_up"></el-table-column>
+                    </el-table>
+                </el-card>
+            </el-col>
+        </el-row>
+
+        <el-row type="flex" justify="space-around" class="table-row">
+            <el-col :span="22">
+                <el-card>
+                    <div slot="header" align="center">
+                        <h3 class="title-tag">
+                            <el-tag type="success">Cpu Info</el-tag>
+                        </h3>
+                    </div>
+
+                    <el-table :data="cpu" border>
+                        <el-table-column prop="architecture" label="architecture"></el-table-column>
+                        <el-table-column prop="byte_order" label="byte-order"></el-table-column>
+                        <el-table-column prop="cpu_mhz" label="cpu-mhz"></el-table-column>
+                        <el-table-column prop="cpus" label="cpu count"></el-table-column>
+                        <el-table-column prop="l1d_cache" label="l1d-cache"></el-table-column>
+                        <el-table-column prop="l1i_cache" label="l1i-cache"></el-table-column>
+                        <el-table-column prop="l2_cache" label="l2-cache"></el-table-column>
+                    </el-table>
+                </el-card>
+            </el-col>
         </el-row>
         <el-row type="flex" justify="space-around" class="table-row">
-            <el-col :span="20">
+            <el-col :span="22">
                 <el-card >
                     <div slot="header" align="center">
-                        <el-tag>Net Info</el-tag>
+                        <h3 class="title-tag">
+                            <el-tag type="success">Net Info</el-tag>
+                        </h3>
                     </div>
                     <el-table :data="net" border>
                         <el-table-column prop="interface" label="interface">
@@ -28,11 +61,15 @@
             </el-col>
         </el-row>
 
+
+
         <el-row type="flex" justify="space-around" class="table-row">
-            <el-col :span="20">
+            <el-col :span="22">
                 <el-card >
                     <div slot="header" align="center">
-                        <el-tag>Disk Info</el-tag>
+                        <h3 class="title-tag">
+                            <el-tag type="success">Disk Info</el-tag>
+                        </h3>
                     </div>
                     <el-table :data="disk" border style="width: 100%;">
                         <el-table-column prop="device" label="device">
@@ -69,68 +106,47 @@
     .table-row{
         margin: 15px 2px;
     }
+
+    .title-tag span.el-tag{
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .el-card__header{
+        padding: 10px 10px;
+    }
+
 </style>
 <script>
     import KvPanel from '../common/KvPanel.vue';
 
     export default {
         components: {
-            KvPanel
+          KvPanel
         },
 
         data: function(){
             return {
-                data: {},
                 disk: [],
-                net: []
+                net: [],
+                general: [],
+                cpu: []
             }
         },
 
         methods: {
 
-            /*
-            obj2list: function (obj) {
-                let ret = [];
-                for (let prop in obj) {
-                    if (obj.hasOwnProperty(prop)) {
-                       ret.push({'k': prop, 'v': obj[prop]})
-                    }
-                }
-                return ret;
-            },
-            */
-
             getBasicInfo: function () {
                 let _self = this;
                 api.basic.get().then(function (response) {
-                    _self.data = response.data.data;
-                    _self.disk = _self.data.disk;
-                    _self.net = _self.data.net;
+                    let data = response.data.data;
+                    _self.disk = data.disk;
+                    _self.net = data.net;
+                    _self.cpu = [data.cpu];
+                    _self.general = [data.general];
                 }, function (error) {
 
                 });
-            }
-        },
-
-        computed: {
-            cpu: function () {
-                // return this.obj2list(this.data.cpu);
-                return this.data.cpu;
-            },
-
-            general: function () {
-                // return this.obj2list(this.data.general);
-                return this.data.general;
-            },
-
-            mem: function () {
-                // return this.obj2list(this.data.mem);
-                return this.data.mem;
-            },
-
-            swap: function () {
-                // return this.obj2list(this.data.swap);
-                return this.data.swap;
             }
         },
 

@@ -12,6 +12,8 @@ from collections import defaultdict
 from app.lib.util import obj2dict
 from app.lib.const import SOCK_TYPE
 
+M = 1024 * 1024
+
 
 def get_loadavg():
     load_file = '/proc/loadavg'
@@ -35,6 +37,7 @@ def _parse_cpu_fields(fields):
         'nice': field_list[2],
         'system': field_list[2],
         'idle': field_list[3],
+        'busy': 100 - field_list[3],
         'iowait': field_list[4],
         'irq': field_list[5],
         'soft_irq': field_list[6],
@@ -79,8 +82,8 @@ def _proc2simple(proc):
 
 def get_intensive_processes():
     procs = map(_proc2simple, psutil.process_iter())
-    cpu_intensive = sorted(procs, cmp=lambda x, y: x['cpu_percent'] < y['cpu_percent'], reverse=True)[0: 20]
-    mem_intensive = sorted(procs, cmp=lambda x, y: x['memory_percent'] < y['memory_percent'], reverse=True)[0:20]
+    cpu_intensive = sorted(procs, cmp=lambda x, y: x['cpu_percent'] < y['cpu_percent'], reverse=True)[0: 10]
+    mem_intensive = sorted(procs, cmp=lambda x, y: x['memory_percent'] < y['memory_percent'], reverse=True)[0:10]
 
     return {
         'cpu_intensive': cpu_intensive,
@@ -199,3 +202,32 @@ def search_process(q):
         if pid_str.find(q) != -1:
             process_map[pid_str].append(pid)
     return process_map
+
+
+def get_mem_info():
+    memory = psutil.virtual_memory()
+    return {
+        'total': round(memory.total / M, 2),
+        'available': round(memory.available / M, 2),
+        'active': round(memory.active / M , 2),
+        'free': round(memory.free / M, 2),
+        'buffers': round(memory.buffers / M, 2),
+        'cached': round(memory.cached / M, 2),
+        'percent': round(memory.percent, 2)
+    }
+
+
+def get_io_counters():
+    io_counters = psutil.disk_io_counters()
+
+    return {
+        'read_count': io_counters.read_count,
+        'read_bytes': io_counters.read_bytes,
+        'write_count': io_counters.write_count,
+        'write_bytes': io_counters.write_bytes,
+        'read_time': io_counters.read_time,
+        'write_time': io_counters.write_time,
+    }
+
+
+

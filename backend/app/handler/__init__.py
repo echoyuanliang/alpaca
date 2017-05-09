@@ -1,3 +1,3 @@
 
-from cpu import cpu_handler
+from system import system_handler
 from network import net_handler
