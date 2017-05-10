@@ -1,7 +1,5 @@
 <template>
     <div>
-
-
          <el-row type="flex" justify="space-around" class="row-section">
              <el-col :span="22">
                 <el-card>
@@ -40,16 +38,16 @@
                     <el-row type="flex" justify="space-around">
                         <el-table :data="cpus" border
                                   :defaultSort="{prop: 'name', order: 'ascending'}">
-                            <el-table-column prop="name" label="name" sortable></el-table-column>
-                            <el-table-column prop="total" label="total" sortable></el-table-column>
-                            <el-table-column prop="system" label="system" sortable></el-table-column>
-                            <el-table-column prop="user" label="user" sortable></el-table-column>
-                            <el-table-column prop="idle" label="idle" sortable></el-table-column>
-                            <el-table-column prop="nice" label="nice" sortable></el-table-column>
-                            <el-table-column prop="iowait" label="iowait" sortable></el-table-column>
-                            <el-table-column prop="steal" label="steal" sortable></el-table-column>
-                            <el-table-column prop="irq" label="irq" sortable></el-table-column>
-                            <el-table-column prop="soft_irq" label="soft_irq" sortable></el-table-column>
+                            <el-table-column prop="name" label="name" sortable align="center"></el-table-column>
+                            <el-table-column prop="total" label="total" sortable align="center"></el-table-column>
+                            <el-table-column prop="system" label="system" sortable align="center"></el-table-column>
+                            <el-table-column prop="user" label="user" sortable align="center"></el-table-column>
+                            <el-table-column prop="idle" label="idle" sortable align="center"></el-table-column>
+                            <el-table-column prop="nice" label="nice" sortable align="center"></el-table-column>
+                            <el-table-column prop="iowait" label="iowait" sortable align="center"></el-table-column>
+                            <el-table-column prop="steal" label="steal" sortable align="center"></el-table-column>
+                            <el-table-column prop="irq" label="irq" sortable align="center"></el-table-column>
+                            <el-table-column prop="soft_irq" label="soft_irq" sortable align="center"></el-table-column>
                         </el-table>
                     </el-row>
                 </el-card>
@@ -68,7 +66,7 @@
                     <el-row type="flex" justify="space-around">
                         <el-col :span="11">
                             <div class="charts" v-if="mem_percent.names.length">
-                                <time-line-charts :values="mem_percent.data"
+                                <time-line-charts :values="mem_percent.data" :label="mem_percent.label"
                                                   :names="mem_percent.names" :title="mem_percent.title">
                                 </time-line-charts>
                             </div>
@@ -76,7 +74,8 @@
 
                         <el-col :span="11">
                             <div class="charts" v-if="mem_usage.names.length">
-                                <bar-charts :values="mem_usage.data" :names="mem_usage.names" :title="mem_usage.title">
+                                <bar-charts :values="mem_usage.data" :names="mem_usage.names"
+                                            :title="mem_usage.title" :label="mem_usage.label">
                                 </bar-charts>
                             </div>
                         </el-col>
@@ -96,9 +95,9 @@
                                         <el-tag type="success">Cpu Intensive Processes</el-tag>
                                     </h3>
                                 </div>
-                                <el-row type="flex" justify="space-around" class="table-row">
+                                <el-row type="flex" justify="space-around">
                                     <el-table :data="cpu_intensive" border>
-                                        <el-table-column label="pid">
+                                        <el-table-column label="pid" align="center">
                                             <template scope="scope">
                                                 <el-button type="text" size="small" :disabled="scope.row.pid == '-'">
                                                     <router-link :to="{name: 'process', params:{pid: scope.row.pid}}" tag="span" v-if="scope.row.pid != '-'">
@@ -108,23 +107,12 @@
                                                 </el-button>
                                             </template>
                                         </el-table-column>
-                                        <el-table-column label="name">
-                                            <template scope="scope">
-                                                <el-popover trigger="hover" placement="top">
-                                                    <div class="process-detail">
-                                                        <p>create_time: {{ scope.row.create_time }}</p>
-                                                        <p>username: {{ scope.row.username }}</p>
-                                                        <p>status: {{ scope.row.status }}</p>
-                                                        <p>mem_percent: {{ scope.row.memory_percent }}</p>
-                                                    </div>
-                                                    <div slot="reference" class="name-wrapper">
-                                                        <el-tag type="primary">{{ scope.row.name }}</el-tag>
-                                                    </div>
-                                                </el-popover>
-                                            </template>
+                                        <el-table-column label="name" prop="name" align="center">
                                         </el-table-column>
-                                        <el-table-column prop="cpu_percent" label="cpu_percent">
+                                        <el-table-column prop="cpu_percent" label="cpu(%)" align="center">
                                         </el-table-column>
+                                        <el-table-column prop="status" label="status" align="center"></el-table-column>
+                                        <el-table-column prop="memory_percent" label="mem(%)" align="center"></el-table-column>
                                     </el-table>
                                 </el-row>
                             </el-card>
@@ -139,7 +127,7 @@
                                 </div>
                                 <el-row type="flex" justify="space-around">
                                     <el-table :data="mem_intensive" border>
-                                        <el-table-column label="pid">
+                                        <el-table-column label="pid" align="center">
                                             <template scope="scope">
                                                 <el-button type="text" size="small" :disabled="scope.row.pid == '-'">
                                                     <router-link :to="{name: 'process', params:{pid: scope.row.pid}}" tag="span" v-if="scope.row.pid != '-'">
@@ -149,23 +137,9 @@
                                                 </el-button>
                                             </template>
                                         </el-table-column>
-                                        <el-table-column label="name">
-                                            <template scope="scope">
-                                                <el-popover trigger="hover" placement="top">
-                                                    <div class="process-detail">
-                                                        <p>create_time: {{ scope.row.create_time }}</p>
-                                                        <p>username: {{ scope.row.username }}</p>
-                                                        <p>status: {{ scope.row.status }}</p>
-                                                        <p>cpu_percent: {{ scope.row.cpu_percent }}</p>
-                                                    </div>
-
-                                                    <div slot="reference" class="name-wrapper">
-                                                        <el-tag type="primary">{{ scope.row.name }}</el-tag>
-                                                    </div>
-                                                </el-popover>
-                                            </template>
-                                        </el-table-column>
-                                        <el-table-column prop="memory_percent" label="mem_percent">
+                                        <el-table-column label="name" prop="name" align="center"></el-table-column>
+                                        <el-table-column label="status" prop="status" align="center"></el-table-column>
+                                        <el-table-column prop="memory_percent" label="mem(%)" align="center">
                                         </el-table-column>
                                     </el-table>
                                 </el-row>
@@ -251,7 +225,19 @@
     }
 
     .el-table th{
-        padding: 5px 5px;
+        padding: 0 0;
+    }
+
+    .el-table th > .cell{
+        padding: 0 0;
+    }
+
+    .el-table td{
+        padding: 0 0;
+    }
+
+    .el-table td > .cell{
+        padding: 0 0;
     }
 
     .title-tag span.el-tag{
@@ -280,6 +266,7 @@
                 mem_intensive: [],
                 cpu_intensive: [],
                 cpus: [],
+                tick: null,
                 load_charts: {
                     title: 'load average',
                     names: [],
@@ -329,13 +316,20 @@
                 mem_percent: {
                     title: 'mem percent',
                     names: [],
+                    label: {
+                        formatter: '{value} %'
+                    },
+
                     data: {
                         'used': []
                     }
                 },
 
                 mem_usage: {
-                    title: 'mem usage(M)',
+                    title: 'mem usage',
+                    label: {
+                        formatter: '{value} M'
+                    },
                     names: [],
                     data: []
                 },
@@ -445,7 +439,13 @@
         mounted: function () {
             this.getSystemInfo();
             const interval = 10000; // 10s
-            setInterval(this.getSystemInfo, interval);
+            this.tick = setInterval(this.getSystemInfo, interval);
+        },
+
+        destroyed: function () {
+            if(this.tick){
+                clearInterval(this.tick);
+            }
         }
 
     }

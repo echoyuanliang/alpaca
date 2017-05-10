@@ -27,6 +27,14 @@
             names: {
                 type: Array,
                 required: true
+            },
+
+            label: {
+                type: Object,
+                required: false,
+                default: function () {
+                    return null;
+                }
             }
 
         },
@@ -108,6 +116,10 @@
         methods: {
             initCharts: function () {
                 // this.charts.legend.data = this.names;
+                if(this.label){
+                    this.charts.yAxis['axisLabel'] = this.label;
+                }
+
                 this.charts.xAxis.data = this.names;
                 this.charts.series[0].name = this.title;
                 this.charts.title.text = this.title;

@@ -71,7 +71,6 @@ def _proc2simple(proc):
         return {
             'pid': proc.pid,
             'name': proc.name(),
-            'cmdline': ''.join(proc.cmdline()),
             'username': proc.username(),
             'create_time': datetime.datetime.fromtimestamp(proc.create_time()).strftime("%Y-%m-%d %H:%M:%S"),
             'cpu_percent': round(proc.cpu_percent(), 2),
@@ -153,7 +152,11 @@ def get_pstree():
 
 
 def children_processor(children):
-    return [{'pid': child.pid, 'name': child.name()} for child in children]
+    return [{'pid': child.pid,
+             'name': child.name(),
+             'status': child.status(),
+             'create_time': datetime.datetime.fromtimestamp(
+                 child.create_time()).strftime("%Y-%m-%d %H:%M:%S")} for child in children]
 
 
 def get_process_detail(pid):
@@ -228,6 +231,3 @@ def get_io_counters():
         'read_time': io_counters.read_time,
         'write_time': io_counters.write_time,
     }
-
-
-

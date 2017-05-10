@@ -1,5 +1,4 @@
 import time
-import json
 from threading import Thread, Lock
 from copy import deepcopy
 from app.lib import system

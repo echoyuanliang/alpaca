@@ -138,6 +138,7 @@
                     { text: 'LISTEN', value: 'LISTEN' },
                     { text: 'TIME_WAIT', value: 'TIME_WAIT'}
                 ],
+                tick: null,
                 connections: {},
                 iface_charts: {},
                 conn_charts: {
@@ -149,10 +150,6 @@
                     title: '',
                     names: [],
                     data: {
-                        'CLOSE_WAIT': [],
-                        'ESTABLISHED': [],
-                        'LISTEN': [],
-                        'TIME_WAIT': []
                     }
                 }
             };
@@ -235,12 +232,15 @@
                     conn_charts.values.push(value);
                 }
 
-                this.$log.log(conn_charts.values);
                 const now = new Date();
                 const name = [now.getHours(), now.getMinutes() , now.getSeconds()].join(':');
                 let status_charts = this.status_charts;
                 for(let item of values){
-                    status_charts.data[item.name].push(item.value);
+                    if(status_charts.data[item.name]){
+                        status_charts.data[item.name].push(item.value);
+                    }else {
+                        status_charts.data[item.name] = [item.value];
+                    }
                 }
                 status_charts.names.push(name);
             },
@@ -293,7 +293,13 @@
         mounted: function () {
             this.initNetworkInfo();
             const interval = 10000; // 10s
-            setInterval(this.getNetworkInfo, interval);
+            this.tick = setInterval(this.getNetworkInfo, interval);
+        },
+
+        destroyed: function () {
+            if(this.tick){
+                clearInterval(this.tick);
+            }
         }
     }
 </script>
