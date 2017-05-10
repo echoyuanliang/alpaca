@@ -68,7 +68,7 @@
                                     </h3>
                                 </div>
                                 <el-row type="flex" justify="space-around">
-                                    <el-table :data="threads" border>
+                                    <el-table :data="threads" border :maxHeight="300">
                                         <el-table-column prop="id" label="id" align="center">
                                         </el-table-column>
                                         <el-table-column prop="system_time" label="system_time" align="center">
@@ -237,27 +237,6 @@
     </div>
 </template>
 
-<style>
-    .row-section{
-        margin: 15px 2px;
-    }
-
-
-    .title-tag span.el-tag{
-        font-size: 18px;
-        font-weight: bold;
-    }
-
-    div.charts{
-        height: 300px;
-        background-color: #EEF1F6;
-        border: 2px solid #EEF1ea;
-        -webkit-border-radius: 2px;
-        -moz-border-radius: 2px;
-        border-radius: 2px;
-    }
-
-</style>
 <script>
     import TimeLineCharts from '../common/TimeLineCharts.vue';
     import BarCharts from '../common/BarCharts.vue';
@@ -466,9 +445,13 @@
             }
         },
 
-        mounted: function () {
+        created: function () {
             this.getProcessInfo();
             this.tick = setInterval(this.getProcessInfo, 1000);
+        },
+
+        watch:{
+            '$route': 'getProcessInfo'
         },
 
         destroyed: function () {

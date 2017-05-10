@@ -8,7 +8,6 @@
 import psutil
 import datetime
 import socket
-from collections import defaultdict
 from app.lib.util import obj2dict
 from app.lib.const import SOCK_TYPE
 
@@ -190,21 +189,20 @@ def get_process_detail(pid):
 
 
 def search_process(q):
-    process_map = defaultdict(list)
-
+    process_list = []
     for process in psutil.process_iter():
         name = process.name()
-        pid = process.pid
-        pid_str = str(process.pid)
         cmdline = ''.join(process.cmdline())
-
         if name != '' and name.find(q) != -1:
-            process_map[name].append(pid)
-        if cmdline != '' and cmdline.find(q) != -1:
-            process_map[cmdline].append(pid)
-        if pid_str.find(q) != -1:
-            process_map[pid_str].append(pid)
-    return process_map
+            idx = name.find(q)
+            process_list.append('{0}-{1}'.format(process.pid, name))
+        elif cmdline != '' and cmdline.find(q) != -1:
+            idx = cmdline.find(q)
+            process_list.append('{0}-{1}'.format(process.pid, cmdline[idx:]))
+        elif str(process.pid).find(q) != -1:
+            process_list.append('{0}-{1}'.format(process.pid, name))
+
+    return process_list
 
 
 def get_mem_info():

@@ -1,6 +1,27 @@
 <template>
     <div>
-         <el-row type="flex" justify="space-around" class="row-section">
+        <el-row type="flex" justify="space-around" class="header-row-section">
+            <el-col :span="14">
+                <el-row type="flex" justify="space-around">
+                    <el-select
+                        v-model="search_input"
+                        filterable
+                        remote
+                        placeholder="请输入进程号／名／启动命令"
+                        size="large"
+                        :remote-method="searchProcess"
+                        :loading="search_loading"
+                        @change="procSelected">
+                        <el-option
+                            v-for="item in search_result" :key="item" :label="item" :value="item">
+                        </el-option>
+                    </el-select>
+                    <el-button type="primary" icon="search">搜索</el-button>
+                </el-row>
+            </el-col>
+        </el-row>
+
+        <el-row type="flex" justify="space-around" class="row-section">
              <el-col :span="22">
                 <el-card>
                     <div slot="header" align="center">
@@ -209,47 +230,14 @@
     </div>
 </template>
 
-<style>
-
-    div.charts{
-        height: 300px;
-        background-color: #EEF1F6;
-        border: 2px solid #EEF1ea;
-        -webkit-border-radius: 2px;
-        -moz-border-radius: 2px;
-        border-radius: 2px;
+<style scoped>
+    div.el-select{
+        width: 100%;
     }
 
-    .row-section{
-        margin: 15px 2px;
+    .header-row-section{
+       margin: 30px;
     }
-
-    .el-table th{
-        padding: 0 0;
-    }
-
-    .el-table th > .cell{
-        padding: 0 0;
-    }
-
-    .el-table td{
-        padding: 0 0;
-    }
-
-    .el-table td > .cell{
-        padding: 0 0;
-    }
-
-    .title-tag span.el-tag{
-        font-size: 18px;
-        font-weight: bold;
-    }
-
-    div.process-detail{
-        font-size: 14px;
-        color: #20a0ff;
-    }
-
 </style>
 <script>
     import TimeLineCharts from '../common/TimeLineCharts.vue';
@@ -265,6 +253,9 @@
             return {
                 mem_intensive: [],
                 cpu_intensive: [],
+                search_input: null,
+                search_loading: false,
+                search_result: [],
                 cpus: [],
                 tick: null,
                 load_charts: {
@@ -368,6 +359,26 @@
                 });
             },
 
+            searchProcess: function (query) {
+                if(query != ''){
+                    this.search_loading = true;
+                    api.search_process.get({'q': query}).then((response)=>{
+                        this.search_loading = false;
+                        let res_list = response.data.data;
+                        this.search_result = res_list.map((item)=>{
+                            return item.slice(0, 40);
+                        });
+                    }, (error)=>{
+
+                    });
+                }
+            },
+
+            procSelected: function () {
+                const pid = this.search_input.split('-')[0];
+                this.$router.push({name: 'process', params: {pid: pid}});
+            },
+
             pushToLoadCharts: function (data_point) {
                 for(let key in data_point){
                     this.load_charts.data[key].push(data_point[key]);
@@ -383,7 +394,6 @@
                 this.cpu_charts.data.length = 0;
 
                 for(let cpu of cpus){
-                    // this.$log.log(cpu);
                     this.cpu_charts.data.push(cpu['idle']);
                     this.cpu_charts.names.push(cpu['name']);
                 }

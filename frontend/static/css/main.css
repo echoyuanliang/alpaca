@@ -8,96 +8,43 @@ body{
     font-family:"Helvetica Neue",Helvetica, "microsoft yahei", arial, STHeiTi, sans-serif;
 }
 a{text-decoration: none}
-.crumbs{
-    margin-bottom: 20px;
-}
-.pagination{
-    margin: 20px 0;
-    text-align: right;
-}
-.plugins-tips{
-    padding:20px 10px;
-    margin-bottom: 20px;
-}
-.el-button+.el-tooltip {
-    margin-left: 10px;
-}
-.el-table td,.el-table th{
-    padding:5px 18px;
-}
-.el-table tr:hover{
-    background: #f6faff;
-}
-.mgb20{
-    margin-bottom: 20px;
+
+
+div.charts{
+    height: 300px;
+    background-color: #EEF1F6;
+    border: 2px solid #EEF1ea;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
 }
 
-.move-enter-active,.move-leave-active{
-    transition: opacity .5s;
+.row-section{
+    margin: 15px 2px;
 }
-.move-enter,.move-leave{
-    opacity: 0;
+
+.el-table th{
+    padding: 0 0;
 }
-/*BaseForm*/
-.form-box{
-    width:600px;
+
+.el-table th > .cell{
+    padding: 0 0;
 }
-.form-box .line{
-    text-align: center;
+
+.el-table td{
+    padding: 0 0;
 }
-.el-time-panel__content::after, .el-time-panel__content::before {
-    margin-top: -7px;
+
+.el-table td > .cell{
+    padding: 0 0;
 }
-/*Readme*/
-.ms-doc .el-checkbox__input.is-disabled+.el-checkbox__label{
-    color: #333;
-    cursor: pointer;
+
+.title-tag span.el-tag{
+    font-size: 18px;
+    font-weight: bold;
 }
-/*Upload*/
-.pure-button{
-    width:150px;
-    height:40px;
-    line-height: 40px;
-    text-align: center;
-    color: #fff;
-    border-radius: 3px;
-}
-.g-core-image-corp-container .info-aside{
-    height:45px;
-}
-.el-upload--text {
-    background-color: #fff;
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    box-sizing: border-box;
-    width: 360px;
-    height: 180px;
-    text-align: center;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-}
-.el-upload--text .el-icon-upload {
-    font-size: 67px;
-    color: #97a8be;
-    margin: 40px 0 16px;
-    line-height: 50px;
-}
-.el-upload--text {
-    color: #97a8be;
+
+div.process-detail{
     font-size: 14px;
-    text-align: center;
-}
-.el-upload--text em {
-    font-style: normal;
-}
-/*VueEditor*/
-.ql-container{
-    min-height: 400px;
-}
-.ql-snow .ql-tooltip{
-    transform: translateX(117.5px) translateY(10px) !important;
-}
-.editor-btn{
-    margin-top: 20px;
+    color: #20a0ff;
 }

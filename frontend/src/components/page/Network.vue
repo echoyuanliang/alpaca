@@ -91,34 +91,6 @@
     </div>
 </template>
 
-<style>
-    .row-section{
-        margin: 15px 2px;
-    }
-
-    a{
-        color: #000;
-    }
-
-    div.charts{
-        height: 300px;
-        background-color: #EEF1F6;
-        border: 2px solid #EEF1ea;
-        -webkit-border-radius: 2px;
-        -moz-border-radius: 2px;
-        border-radius: 2px;
-    }
-
-    .title-tag span.el-tag{
-        font-size: 18px;
-        font-weight: bold;
-    }
-
-    .el-card__header{
-        padding: 10px 10px;
-    }
-
-</style>
 <script>
     import TimeLineCharts from '../common/TimeLineCharts.vue';
     import PieCharts from '../common/PieCharts.vue';

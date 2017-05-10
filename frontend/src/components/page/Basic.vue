@@ -101,20 +101,6 @@
     </div>
 </template>
 
-<style>
-    .title-tag span.el-tag{
-        font-size: 18px;
-        font-weight: bold;
-    }
-
-    .el-card header{
-        padding: 10px 10px;
-    }
-
-    .row-section{
-        margin: 15px 2px;
-    }
-</style>
 <script>
     import KvPanel from '../common/KvPanel.vue';
 
