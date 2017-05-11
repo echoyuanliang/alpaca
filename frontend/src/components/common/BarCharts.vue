@@ -112,10 +112,8 @@
             };
         },
 
-
         methods: {
             initCharts: function () {
-                // this.charts.legend.data = this.names;
                 if(this.label){
                     this.charts.yAxis['axisLabel'] = this.label;
                 }

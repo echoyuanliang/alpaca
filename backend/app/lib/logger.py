@@ -10,6 +10,7 @@ import logging
 from flask import request
 from logging.handlers import RotatingFileHandler
 
+
 class CustomFormatter(logging.Formatter):
 
     def format(self, record):

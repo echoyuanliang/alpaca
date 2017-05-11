@@ -3,5 +3,7 @@
 .idea/
 venv/
 logs/
+var/
 *.pyc
-
+app/static
+app/templates

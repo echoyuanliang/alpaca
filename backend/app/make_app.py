@@ -37,15 +37,15 @@ class MakeApp:
                         (not session.get('login') and request.path != '/login'):
                     abort(403)
             else:
-                session['login'] = 'zhangyuanliang'
+                session['login'] = 'allen'
 
     def init_modules(self):
         from app.views import *
 
         modules = (
-            (basic_bp, '/basic'),
-            (network_bp, '/network'),
-            (system_bp, '/system')
+            (basic_bp, '/api/basic'),
+            (network_bp, '/api/network'),
+            (system_bp, '/api/system')
         )
 
         for module, url_prefix in modules:

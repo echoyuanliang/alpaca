@@ -6,7 +6,7 @@ module.exports = {
         index: path.resolve(__dirname, '../dist/index.html'),
         assetsRoot: path.resolve(__dirname, '../dist'),
         assetsSubDirectory: 'static',
-        assetsPublicPath: './',
+        assetsPublicPath: '/',
         productionSourceMap: false,
         productionGzip: false,
         productionGzipExtensions: ['js', 'css'],
@@ -22,9 +22,6 @@ module.exports = {
             '/api/':{
                 target:'http://allen01.tx:1993',
                 changeOrigin:true,
-                pathRewrite:{
-                    '^/api':''
-                }
             }
         },
         cssSourceMap: false

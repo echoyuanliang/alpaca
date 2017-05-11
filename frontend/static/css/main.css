@@ -9,9 +9,11 @@ body{
 }
 a{text-decoration: none}
 
+div.charts .vue-echarts{
+    height: 300px;
+}
 
 div.charts{
-    height: 300px;
     background-color: #EEF1F6;
     border: 2px solid #EEF1ea;
     -webkit-border-radius: 2px;

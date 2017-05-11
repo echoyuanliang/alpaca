@@ -11,7 +11,7 @@ from simplepam import authenticate
 from app.main import app
 
 
-@app.route('/login', methods=['POST'])
+@app.route('/api/login', methods=['POST'])
 def login():
     params = request.json
     auth_users = app.config.get('AUTH_USER', [])

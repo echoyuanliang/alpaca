@@ -8,6 +8,7 @@
 import numbers
 import datetime
 
+
 def bytes2human(bytes, suffix='B'):
     for unit in ['', 'K', 'M', 'G', 'T', 'P', 'E', 'Z']:
         if abs(bytes) < 1024:
@@ -16,6 +17,7 @@ def bytes2human(bytes, suffix='B'):
         bytes /= 1024.0
 
     return "%.1f%s%s" % (bytes, 'Yi', suffix)
+
 
 def _obj2dict(obj, methods, override, ignore):
     res = dict()
@@ -42,6 +44,7 @@ def _obj2dict(obj, methods, override, ignore):
             res[key] = obj2dict(val, methods, override, ignore)
 
     return res
+
 
 def obj2dict(obj, methods=False, override=None, ignore=None):
     simple_types = (basestring, numbers.Number)

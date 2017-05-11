@@ -418,6 +418,28 @@
                 this.percent_charts.names.push(timestamp);
             },
 
+            initAllCharts: function () {
+                this.percent_charts.names = [];
+                this.percent_charts.data['cpu'] = [];
+                this.percent_charts.data['mem'] = [];
+
+                this.io_chars.names = [];
+                this.io_chars.data['read'] = [];
+                this.io_chars.data['write'] = [];
+
+                this.io_count.names = [];
+                this.io_count.data['read'] = [];
+                this.io_count.data['write'] = [];
+
+                this.cpu_time.names = [];
+                this.cpu_time.data['system'] = [];
+                this.cpu_time.data['user'] = [];
+
+                this.mem_charts.data = [];
+                this.io_counters =  [null, null];
+                this.cpus =  [null, null];
+            },
+
             getBasicInfo: function (process_info) {
                 return {
                     pid: process_info.pid,
@@ -427,31 +449,20 @@
                     status: process_info.status,
                     create_time: process_info.create_time,
                 };
-            },
-
-            computeMemInfo: function (process) {
-                let full_info = process.memory_full_info;
-                let mem_info = [{'k': 'percent', 'v': process.memory_percent}];
-
-                for(let k in full_info){
-                    if(full_info.hasOwnProperty(k)){
-                        mem_info.push({
-                            'k': k,
-                            'v': full_info[k]
-                        });
-                    }
-                }
-                return mem_info;
             }
         },
 
-        created: function () {
+        mounted: function () {
+            this.$log.log('mounted');
             this.getProcessInfo();
             this.tick = setInterval(this.getProcessInfo, 1000);
         },
 
-        watch:{
-            '$route': 'getProcessInfo'
+        watch: {
+          '$route': function () {
+              this.$log.log('changed');
+              this.initAllCharts();
+          }
         },
 
         destroyed: function () {

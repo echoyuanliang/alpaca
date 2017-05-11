@@ -60,11 +60,5 @@ module.exports = {
         }
       }
     ]
-  },
-    // plugins: [
-    //     new webpack.DllReferencePlugin({
-    //       context: path.resolve(__dirname, '..'),
-    //       manifest: require('./vendor-manifest.json')
-    //     })
-    // ]
+  }
 }

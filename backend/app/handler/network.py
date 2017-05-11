@@ -73,7 +73,6 @@ class NetHandler(Thread):
     def get_connections(self):
         with self.lock:
             connections = deepcopy(self.connections)
-
         return connections
 
     def get_network_info(self):
