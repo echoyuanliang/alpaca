@@ -10,6 +10,8 @@ import "babel-polyfill";
 import Resource from 'vue-resource';
 import Auth from 'service/auth.js';
 import VueLogger from 'vue-logger';
+
+
 Vue.use(Resource);
 Vue.use(ElementUI);
 Vue.use(VueResource);
@@ -19,7 +21,7 @@ Vue.prototype.$axios = axios;
 global.api = require('./api.js');
 
 router.beforeEach((to, from, next) => {
-    if (Auth.authenticated || ! to.meta.needAuth) {
+    if (Auth.authenticated() || ! to.meta.needAuth) {
         next();
     }else{
         next({

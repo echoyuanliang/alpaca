@@ -3,11 +3,10 @@
  */
 
 export default {
-    authenticated: false,
-    login(context, creds, redirect) {
-        return context.$http.post('/api/login', creds).then( (data) => {
-            localStorage.setItem('user', JSON.stringify(data.user));
-            this.authenticated = true;
+    login: function(context, creds, redirect) {
+        return context.$http.post('/api/login', creds).then( (response) => {
+            let data = response.data.data;
+            localStorage.setItem('user', data.user);
             if(redirect){
                 context.$router.push(redirect);
             }
@@ -20,7 +19,20 @@ export default {
         });
     },
 
+    logout: function (context) {
+        localStorage.removeItem('user');
+        context.$router.push('/login');
+    },
+
     user: function () {
       return localStorage.getItem('user');
+    },
+
+    authenticated: function () {
+        let user = localStorage.getItem('user');
+        if(user === undefined || user == null || user=='undefined'){
+            return false;
+        }
+        return true;
     }
 }
