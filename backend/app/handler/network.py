@@ -1,6 +1,4 @@
 import time
-import multiprocessing
-import threading
 from threading import Thread, Lock
 from copy import deepcopy
 from app.lib.network import get_iface_status, get_connections

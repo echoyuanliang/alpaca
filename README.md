@@ -1,6 +1,6 @@
 # alpaca 
 
-> 一个简单的linux dashboard, 用于收集、统计和展示linux操作系统信息,主要包括四个维度的信息：
+> 一个基于`vue2.0` `python2.7` `flask`的简单linux dashboard, 用于收集、统计和展示linux操作系统信息,主要包括四个维度的信息：
 > 
 > 1. 基本信息: ip，hostname，cpu配置信息，磁盘分区信息等;
 > 
@@ -48,7 +48,6 @@ linux操作系统；python2.7; node >= 4.0.0; npm>= 3.0.0
 		access_log_format = "%({X-Real-IP}i)s %(h)s %(l)s %(u)s %(t)s %(r)s %(s)s %(b)s %(f)s %(a)s"	
 
 
-* 应用程序配置文件路径为`backend/config.py`, alpaca使用linux的用户，密码来管理登陆的用户，因此需要配置那些用户具有访问权限，配置项为`AUTH_USER`, 同时，alpaca仅对白名单ip授予访问权限，配置项为`AUTH_IP`。仅在`AUTH_IP`内部的机器上面，提供`AUTH_USER`内部的用户名和目标机器的该用户系统密码
-
+* 应用程序配置文件路径为`backend/config.py`, alpaca使用linux的用户，密码来管理登陆的用户，因此需要配置那些用户具有访问权限，配置项为`AUTH_USER`, 如果不配置或配置为空数组，则所有用户均有权限登录, 同时，alpaca仅对白名单ip授予访问权限，配置项为`AUTH_IP`，如果不配置或配置项为空数组，则所有ip均有权限登录。
 ## 技术栈
-`python` `flask` `ecmascript6` `vue`
+`python` `flask` `ecmascript6` `vue2.0`

@@ -19,22 +19,32 @@ def system_info():
 
 @system_bp.route('/load')
 def system_load():
-    return make_response(jsonify(code=200, data=system.get_loadavg()), 200)
+    data = system_handler.get_system()
+    return make_response(jsonify(code=200, data=data.get('loadavg', {})), 200)
 
 
 @system_bp.route('/cpu_stat')
 def system_cpu_stat():
-    return make_response(jsonify(code=200, data=system_handler.get_last_stat()), 200)
+    data = system_handler.get_system()
+    return make_response(jsonify(code=200, data=data.get('cpu_stat', {})), 200)
 
 
 @system_bp.route('/processes')
 def system_intensive_processes():
-    return make_response(jsonify(code=200, data=system.get_intensive_processes()), 200)
+    data = system_handler.get_system()
+    return make_response(jsonify(code=200, data=data.get('intensive_processes', {})), 200)
 
 
-@system_bp.route('/pstree')
-def system_intensive_process():
-    return make_response(jsonify(code=200, data=system.get_pstree()), 200)
+@system_bp.route('/io_counters')
+def system_io_counters():
+    data = system_handler.get_system()
+    return make_response(jsonify(code=200, data=data.get('io_counters', {})), 200)
+
+
+@system_bp.route('/mem')
+def system_mem_info():
+    data = system_handler.get_system()
+    return make_response(jsonify(code=200, data=data.get('mem_info'), {}), 200)
 
 
 @system_bp.route('/process/<int:pid>')

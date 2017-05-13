@@ -20,9 +20,11 @@ def network_info():
 
 @network_bp.route('/conn/')
 def network_conns():
-    return make_response(jsonify(data=network.get_connections(), code=200), 200)
+    data = net_handler.get_network_info()
+    return make_response(jsonify(data=data.get('connections', {}), code=200), 200)
 
 
 @network_bp.route('/iface')
 def network_iface():
-    return make_response(jsonify(data=net_handler.get_iface_status(), code=200), 200)
+    data = net_handler.get_network_info()
+    return make_response(jsonify(data=data.get('iface_status', []), code=200), 200)
