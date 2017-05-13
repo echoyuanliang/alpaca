@@ -13,7 +13,7 @@ SECRET_KEY = 'qwertyuiopasdfghjklzxcvbnm'
 LOG_HANDLERS = {
     'FILE': {
         'LOG_PATH': 'logs/app.log',
-        'LOG_LEVEL': 'INFO' if DEBUG else 'WARNING',
+        'LOG_LEVEL': 'DEBUG' if DEBUG else 'WARNING',
         'MAX_BYTES': 1024 * 1024 * 100,
         'BACKUP_COUNT': 7
     }

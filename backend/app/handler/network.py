@@ -21,8 +21,6 @@ class NetHandler(Thread):
         while True:
             with app.app_context():
                 try:
-                    app.logger.info('process {0}, thread {1} set net'.format(
-                        multiprocessing.current_process().pid, threading.currentThread().ident))
                     net = get_iface_status()
                     self._set_net_async(net)
                     self._set_connections()
