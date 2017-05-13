@@ -19,13 +19,18 @@ def login():
         username = str(params.get('username', '').strip())
         password = str(params.get('password', '').strip())
 
-        if username and password and username in auth_users:
+        if auth_users and username not in auth_users:
+            abort(403, msg='user {0} has no privilege login'.format(username))
+
+        if username and password:
             auth = authenticate(username, password, service='login', encoding='utf-8', resetcred=True)
             if auth:
                 app.logger.info('user {0} login from {1}'.format(username, session['remote_address']))
                 session['login'] = '{0}-{1}'.format(username, time.time())
                 return make_response(jsonify(code=200, data={'user': username, 'code': 200}), 200)
+        else:
+            abort(403, msg='username and password is required')
     except Exception as e:
         abort(403, msg=str(e))
 
-    abort(403)
+    abort(403, msg='auth failed')

@@ -68,7 +68,7 @@
                                     </h3>
                                 </div>
                                 <el-row type="flex" justify="space-around">
-                                    <el-table :data="threads" border :maxHeight="300">
+                                    <el-table :data="threads" border :height="300">
                                         <el-table-column prop="id" label="id" align="center">
                                         </el-table-column>
                                         <el-table-column prop="system_time" label="system_time" align="center">

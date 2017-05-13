@@ -19,5 +19,5 @@ LOG_HANDLERS = {
     }
 }
 
-AUTH_USER = ['zhangyuanliang', 'root', 'allen']
-AUTH_IP = ['127.0.0.1', '180.153.132.29', '192.168.8.103', '180.159.101.128', '211.161.244.63']
+AUTH_USER = []
+AUTH_IP = []

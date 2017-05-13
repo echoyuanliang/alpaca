@@ -31,13 +31,10 @@ class MakeApp:
 
             ip_list = request.headers.getlist("X-Forwarded-For")
             session['remote_address'] = ip_list[0].split(',')[0] if ip_list else request.remote_addr
-            self.app.logger.info(session['remote_address'])
-            if not self.app.config['DEBUG']:
-                if session['remote_address'] not in self.app.config['AUTH_IP'] or \
-                        (not session.get('login') and request.path != '/login'):
-                    abort(403)
-            else:
-                session['login'] = 'allen'
+            if self.app.config['AUTH_IP'] and session['remote_address'] not in self.app.config['AUTH_IP']:
+                abort(403)
+            if not session.get('login') and request.path != '/login':
+                abort(403)
 
     def init_modules(self):
         from app.views import *
