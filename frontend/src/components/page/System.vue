@@ -1,26 +1,5 @@
 <template>
     <div>
-        <el-row type="flex" justify="space-around" class="header-row-section">
-            <el-col :span="14">
-                <el-row type="flex" justify="space-around">
-                    <el-select
-                        v-model="search_input"
-                        filterable
-                        remote
-                        placeholder="请输入进程号／名／启动命令"
-                        size="large"
-                        :remote-method="searchProcess"
-                        :loading="search_loading"
-                        @change="procSelected">
-                        <el-option
-                            v-for="item in search_result" :key="item" :label="item" :value="item">
-                        </el-option>
-                    </el-select>
-                    <el-button type="primary" icon="search">搜索</el-button>
-                </el-row>
-            </el-col>
-        </el-row>
-
         <el-row type="flex" justify="space-around" class="row-section">
              <el-col :span="22">
                 <el-card>
@@ -230,15 +209,6 @@
     </div>
 </template>
 
-<style scoped>
-    div.el-select{
-        width: 100%;
-    }
-
-    .header-row-section{
-       margin: 30px;
-    }
-</style>
 <script>
     import TimeLineCharts from '../common/TimeLineCharts.vue';
     import BarCharts from '../common/BarCharts.vue';
@@ -253,9 +223,6 @@
             return {
                 mem_intensive: [],
                 cpu_intensive: [],
-                search_input: null,
-                search_loading: false,
-                search_result: [],
                 cpus: [],
                 tick: null,
                 load_charts: {
@@ -357,26 +324,6 @@
                     _self.pushToIOCharts(io_counters);
                 }, (error) => {
                 });
-            },
-
-            searchProcess: function (query) {
-                if(query != ''){
-                    this.search_loading = true;
-                    api.search_process.get({'q': query}).then((response)=>{
-                        this.search_loading = false;
-                        let res_list = response.data.data;
-                        this.search_result = res_list.map((item)=>{
-                            return item.slice(0, 40);
-                        });
-                    }, (error)=>{
-
-                    });
-                }
-            },
-
-            procSelected: function () {
-                const pid = this.search_input.split('-')[0];
-                this.$router.push({name: 'process', params: {pid: pid}});
             },
 
             pushToLoadCharts: function (data_point) {

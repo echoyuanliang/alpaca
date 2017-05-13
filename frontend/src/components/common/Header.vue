@@ -1,7 +1,7 @@
 <template>
     <div class="header">
         <el-row type="flex" justify="space-between">
-            <el-col :span="14">
+            <el-col :span="8">
                 <el-menu :default-active="onRoutes" mode="horizontal"
                          theme="dark" unique-opened router>
                     <el-menu-item index="/home">
@@ -15,6 +15,9 @@
                     </el-menu-item>
                 </el-menu>
             </el-col>
+            <el-col :span="8">
+                <search-process :style="{height: '100%'}"></search-process>
+            </el-col>
             <el-col :span="2">
                 <el-menu mode="horizontal" theme="dark" unique-opened @select="handleSelect">
                     <el-submenu index="auth">
@@ -24,9 +27,7 @@
                 </el-menu>
             </el-col>
         </el-row>
-
     </div>
-
 </template>
 
 <style scoped>
@@ -34,19 +35,17 @@
         background-color: #324157;
     }
 
-    div.el-dropdown{
-        width: 100%;
-        height: 100%;
-    }
 </style>
 <script>
-    import ElMenu from "../../../node_modules/element-ui/packages/menu/src/menu";
     import Auth from "../../service/auth.js";
-    import ElMenuItem from "../../../node_modules/element-ui/packages/menu/src/menu-item";
-    import ElSubmenu from "../../../node_modules/element-ui/packages/menu/src/submenu";
+    import SearchProcess from './SearchProcess.vue';
 
     export default {
-        components: {ElSubmenu, ElMenuItem, ElMenu}, computed:{
+        components: {
+            'search-process': SearchProcess
+        },
+
+        computed:{
             onRoutes(){
                 return this.$route.path.replace('/','');
             }
