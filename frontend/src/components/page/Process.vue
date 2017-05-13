@@ -238,6 +238,7 @@
 </template>
 
 <script>
+    import config from '../../config.js';
     import TimeLineCharts from '../common/TimeLineCharts.vue';
     import BarCharts from '../common/BarCharts.vue';
 
@@ -455,7 +456,7 @@
         mounted: function () {
             this.$log.log('mounted');
             this.getProcessInfo();
-            this.tick = setInterval(this.getProcessInfo, 1000);
+            this.tick = setInterval(this.getProcessInfo, config.PROCESS_IDLE);
         },
 
         watch: {

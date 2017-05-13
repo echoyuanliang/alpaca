@@ -92,13 +92,13 @@
 </template>
 
 <script>
+    import config from '../../config.js';
     import TimeLineCharts from '../common/TimeLineCharts.vue';
     import PieCharts from '../common/PieCharts.vue';
-    import ElCard from "../../../node_modules/element-ui/packages/card/src/main";
 
     export default{
         components: {
-            ElCard, 'time-line-charts': TimeLineCharts,
+            'time-line-charts': TimeLineCharts,
             'pie-charts': PieCharts
         },
 
@@ -264,8 +264,7 @@
 
         mounted: function () {
             this.initNetworkInfo();
-            const interval = 10000; // 10s
-            this.tick = setInterval(this.getNetworkInfo, interval);
+            this.tick = setInterval(this.getNetworkInfo, config.NET_IDLE);
         },
 
         destroyed: function () {

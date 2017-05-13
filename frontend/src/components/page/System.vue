@@ -210,6 +210,7 @@
 </template>
 
 <script>
+    import config from '../../config';
     import TimeLineCharts from '../common/TimeLineCharts.vue';
     import BarCharts from '../common/BarCharts.vue';
 
@@ -395,8 +396,7 @@
 
         mounted: function () {
             this.getSystemInfo();
-            const interval = 10000; // 10s
-            this.tick = setInterval(this.getSystemInfo, interval);
+            this.tick = setInterval(this.getSystemInfo, config.SYSTEM_IDLE);
         },
 
         destroyed: function () {
