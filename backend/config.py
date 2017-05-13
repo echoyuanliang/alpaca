@@ -5,10 +5,10 @@
 
 """
 
-DEBUG=True
+DEBUG = False
 
-HOST='0.0.0.0'
-PORT='1993'
+HOST = '0.0.0.0'
+PORT = '1993'
 SECRET_KEY = 'qwertyuiopasdfghjklzxcvbnm'
 LOG_HANDLERS = {
     'FILE': {

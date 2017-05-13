@@ -1,4 +1,6 @@
 import time
+import multiprocessing
+import threading
 from threading import Thread, Lock
 from copy import deepcopy
 from app.lib import system
@@ -21,7 +23,8 @@ class SystemHandler(Thread):
     def _set_system(self):
         from app.main import app
         with app.app_context():
-            app.logger.info('_set_system')
+            app.logger.info('process {0}, thread {1} set system'.format(
+                multiprocessing.current_process().pid, threading.currentThread().ident))
             try:
                 cpu_stat = system.get_cpu_stat()
                 io_counters = system.get_io_counters()

@@ -86,6 +86,14 @@ build_back() {
         mkdir var
     fi
 
+    if [ ! -d instance ];then
+        mkdir instance
+    fi
+
+    if [ ! -f instance/config.py ];then
+	touch instance/config.py
+    fi	
+
     return $?
 }
 

@@ -7,3 +7,4 @@ var/
 *.pyc
 app/static
 app/templates
+instance/

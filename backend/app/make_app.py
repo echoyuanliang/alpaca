@@ -21,6 +21,7 @@ class MakeApp:
 
     def init_config(self):
         self.app.config.from_object('config')
+        self.app.config.from_pyfile('config.py')
 
     def init_log(self):
         AppLogger(self.app).init_handlers()
