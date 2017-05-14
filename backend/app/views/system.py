@@ -44,7 +44,7 @@ def system_io_counters():
 @system_bp.route('/mem')
 def system_mem_info():
     data = system_handler.get_system()
-    return make_response(jsonify(code=200, data=data.get('mem_info'), {}), 200)
+    return make_response(jsonify(code=200, data=data.get('mem_info', {})))
 
 
 @system_bp.route('/process/<int:pid>')

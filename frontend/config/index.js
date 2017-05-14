@@ -9,6 +9,7 @@ module.exports = {
         assetsPublicPath: '/',
         productionSourceMap: false,
         productionGzip: false,
+        useDll: true,
         productionGzipExtensions: ['js', 'css'],
         bundleAnalyzerReport: process.env.npm_config_report
     },
@@ -24,6 +25,6 @@ module.exports = {
                 changeOrigin:true,
             }
         },
-        cssSourceMap: false
+        cssSourceMap: true
     }
 };

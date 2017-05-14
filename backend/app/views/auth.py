@@ -20,7 +20,7 @@ def login():
         password = str(params.get('password', '').strip())
 
         if auth_users and username not in auth_users:
-            abort(403, msg='user {0} has no privilege login'.format(username))
+            abort(401, msg='user {0} has no privilege login'.format(username))
 
         if username and password:
             auth = authenticate(username, password, service='login', encoding='utf-8', resetcred=True)
@@ -29,8 +29,8 @@ def login():
                 session['login'] = '{0}-{1}'.format(username, time.time())
                 return make_response(jsonify(code=200, data={'user': username, 'code': 200}), 200)
         else:
-            abort(403, msg='username and password is required')
+            abort(401, msg='username and password is required')
     except Exception as e:
-        abort(403, msg=str(e))
+        abort(401, msg=str(e))
 
-    abort(403, msg='auth failed')
+    abort(401, msg='auth failed')

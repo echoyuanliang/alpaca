@@ -4,7 +4,7 @@
             v-model="search_input"
             filterable
             remote
-            placeholder="请输入进程号／名／启动命令"
+            placeholder="Please input pid/process name/cmdline"
             size="large"
             :remote-method="searchProcess"
             :loading="search_loading"

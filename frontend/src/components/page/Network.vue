@@ -5,7 +5,7 @@
                 <el-card>
                     <div slot="header" align="center">
                         <h3 class="title-tag">
-                            <el-tag  type="success">{{key}} &nbsp; 网络流量</el-tag>
+                            <el-tag  type="success">{{key}} &nbsp; Traffic</el-tag>
                         </h3>
                     </div>
                     <el-row type="flex" justify="space-around">
@@ -31,7 +31,7 @@
                 <el-card>
                     <div slot="header" align="center">
                         <h3 class="title-tag">
-                            <el-tag  type="success">连接状态</el-tag>
+                            <el-tag  type="success">Connection Status</el-tag>
                         </h3>
                     </div>
                     <el-row type="flex" justify="space-around">
@@ -56,7 +56,7 @@
                 <el-card v-if="connections.conns">
                     <div slot="header" align="center">
                         <h3 class="title-tag">
-                            <el-tag type="success">TCP 连接详情 &nbsp; (共 {{connections.count}} 个连接)</el-tag>
+                            <el-tag type="success">TCP Connection Details &nbsp; ( {{connections.count}} connections)</el-tag>
                         </h3>
                     </div>
                     <el-row type="flex" justify="space-around">

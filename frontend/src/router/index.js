@@ -1,9 +1,10 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+import Auth from '../service/auth';
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
     routes: [
         {
             path: '/',
@@ -60,4 +61,18 @@ export default new Router({
             }
         }
     ]
-})
+});
+
+router.beforeEach((to, from, next) => {
+    if (Auth.authenticated() || ! to.meta.needAuth) {
+        next();
+    }else{
+        next({
+            path: '/login',
+            query: {redirect: to.fullPath}
+        });
+    }
+});
+
+export default router;
+

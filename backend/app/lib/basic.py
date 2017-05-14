@@ -19,7 +19,7 @@ def _seconds2human(seconds):
     h,m = divmod(m, 60)
     d,h = divmod(h, 24)
 
-    time_str = u'{0}天, {1}小时, {2}分, {3}秒'.format(int(d), int(h), int(m), int(s))
+    time_str = '{0}days, {1}hours, {2}minutes, {3}seconds'.format(int(d), int(h), int(m), int(s))
     return time_str
 
 

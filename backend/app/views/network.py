@@ -6,7 +6,6 @@
 """
 
 from flask import make_response, jsonify, Blueprint
-from app.lib import network
 from app.handler import net_handler
 
 network_bp = Blueprint('network_bp', __name__)
