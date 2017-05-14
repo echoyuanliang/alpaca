@@ -49,7 +49,7 @@ linux操作系统；python2.7; node >= 4.0.0; npm>= 3.0.0
 		access_log_format = "%({X-Real-IP}i)s %(h)s %(l)s %(u)s %(t)s %(r)s %(s)s %(b)s %(f)s %(a)s"	
 
 
-* 应用程序配置文件路径为`backend/config.py`, alpaca使用linux的用户，密码来管理登陆的用户，因此需要配置那些用户具有访问权限，配置项为`AUTH_USER`, 如果不配置或配置为空数组，则所有用户均有权限登录, 同时，alpaca仅对白名单ip授予访问权限，配置项为`AUTH_IP`，如果不配置或配置项为空数组，则所有ip均有权限登录。
+* 应用程序配置文件路径为`backend/config.py`, alpaca使用linux的用户(root除外)，密码来管理登陆的用户，因此需要配置那些用户具有访问权限，配置项为`AUTH_USER`, 如果不配置或配置为空数组，则所有用户均有权限登录, 同时，alpaca仅对白名单ip授予访问权限，配置项为`AUTH_IP`，如果不配置或配置项为空数组，则所有ip均有权限登录。
 
 
 ## 技术栈
