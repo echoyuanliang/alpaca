@@ -72,7 +72,7 @@ start() {
 
 build_back() {
     cd ${backend}
-    virtualenv --no-site-packages venv
+    virtualenv --no-site-packages venv --python=python2.7
     venv/bin/pip install -r requirements.txt
     
     rm -rf ${backend_static}
