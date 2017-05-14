@@ -29,12 +29,11 @@ class MakeApp:
     def init_before(self):
         @self.app.before_request
         def before_request():
-
             ip_list = request.headers.getlist("X-Forwarded-For")
             session['remote_address'] = ip_list[0].split(',')[0] if ip_list else request.remote_addr
             if self.app.config['AUTH_IP'] and session['remote_address'] not in self.app.config['AUTH_IP']:
                 abort(401)
-            if not session.get('login') and request.path != '/api/login':
+            if not session.get('login') and request.path.startswith('/api'):
                 abort(401)
 
     def init_modules(self):

@@ -4,7 +4,7 @@
 
 Vue = require('vue');
 
-exports.login = Vue.resource('/api/login');
+exports.login = Vue.resource('/login');
 exports.basic = Vue.resource('/api/basic/');
 exports.system = Vue.resource('/api/system/');
 exports.network = Vue.resource('/api/network/');
