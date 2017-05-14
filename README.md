@@ -26,6 +26,7 @@ linux操作系统；python2.7; node >= 4.0.0; npm>= 3.0.0
 	cd alpaca 
 	bash alpaca build
 	bash alpaca start
+	
 
 ### 相关配置
 
@@ -49,5 +50,30 @@ linux操作系统；python2.7; node >= 4.0.0; npm>= 3.0.0
 
 
 * 应用程序配置文件路径为`backend/config.py`, alpaca使用linux的用户，密码来管理登陆的用户，因此需要配置那些用户具有访问权限，配置项为`AUTH_USER`, 如果不配置或配置为空数组，则所有用户均有权限登录, 同时，alpaca仅对白名单ip授予访问权限，配置项为`AUTH_IP`，如果不配置或配置项为空数组，则所有ip均有权限登录。
+
+
 ## 技术栈
 `python` `flask` `ecmascript6` `vue2.0`
+
+## 截图
+**基本信息页面**
+
+![basic.png](https://github.com/echoyuanliang/alpaca/blob/master/screenshot/basic.png)
+
+
+**系统信息页面**
+
+![system.png](https://github.com/echoyuanliang/alpaca/blob/master/screenshot/system.png)
+
+
+**网络信息页面**
+
+
+![network.png](https://github.com/echoyuanliang/alpaca/blob/master/screenshot/network.png)
+
+
+**进程信息页面**
+
+
+![process.png](https://github.com/echoyuanliang/alpaca/blob/master/screenshot/process.png)
+
