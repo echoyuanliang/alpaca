@@ -4,7 +4,7 @@
 
 export default {
     login: function(context, creds, redirect) {
-        return context.$http.post('/api/login', creds).then( (response) => {
+        return context.$http.post('/login', creds).then( (response) => {
             let data = response.data.data;
             localStorage.setItem('user', data.user);
             if(redirect){
@@ -12,8 +12,8 @@ export default {
             }
         }).catch((errors) => {
             context.$notify.error({
-                title: '登录失败',
-                message: '您的IP地址不合法或用户名密码错误'
+                title: 'Login Failed',
+                message: 'Unauthorized ip address or invalid username/password'
             });
             console.error(errors);
         });
